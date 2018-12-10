@@ -18,11 +18,11 @@ render=render_jinja(
     encoding='utf-8'
 )
 
-ssr=ssr
+ss=ssr.ssr()
 class home():
     def GET(self):
-        users=ssr.ssr.Get_all_user()
-        return 'hello world'
+        users=ss.Get_all_user()
+        return render.home(users=users)
 
 class add():
     def POST(self):
