@@ -113,7 +113,7 @@ class MuMgr(object):
             'method': "aes-256-cfb",
             'protocol': "origin",
             'obfs': "plain",
-            'transfer_enable': 53687091200
+            'transfer_enable': 107374182400
         }
         up['passwd'] = self.rand_pass()
         up.update(user)
@@ -129,6 +129,7 @@ class MuMgr(object):
                 return
         self.data.json.append(up)
         self.data.save(self.config_path)
+        return True
 
     def edit(self, user):
         self.data.load(self.config_path)
@@ -143,6 +144,7 @@ class MuMgr(object):
                 row.update(user)
                 break
         self.data.save(self.config_path)
+        return True
 
     def delete(self, user):
         self.data.load(self.config_path)
@@ -158,6 +160,7 @@ class MuMgr(object):
                 break
             index += 1
         self.data.save(self.config_path)
+        return True
 
     def clear_ud(self, user):
         up = {'u': 0, 'd': 0}
