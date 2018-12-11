@@ -1,14 +1,12 @@
 import web
-import sys
 import ssr
 from web.contrib.template import render_jinja
-#sys.path.append('..')
 
 urls=(
     '/', 'home',
     '/add', 'add',
-    'delete', 'delete',
-    'edit','edit'
+    '/delete', 'delete',
+    '/edit','edit'
 )
 
 app=web.application(urls,globals())
@@ -21,43 +19,86 @@ render=render_jinja(
 class users():
     name = ''
     port = ''
-    passwd =''
-    method =''
-    protocol=''
+    passwd = ''
+    method = ''
+    protocol = ''
     obfs = ''
 
 ss=ssr.ssr()
 class home():
     def GET(self):
-        users=ss.Get_all_user()
+        users = ss.Get_all_user()
         return render.home(users=users)
 
 class add():
     def POST(self):
-        data=web.data().decode('utf-8')
-        data=data.split('&')
+        data=web.input()
         user={
-        'user'    :data[0][5:],
-        'port'    :data[1][5:],
-        'passwd'  :data[2][7:],
-        'method'  :data[3][7:],
-        'protocol':data[4][9:],
-        'obfs'    :data[5][5:]
+        'user'    :data.get('name'),
+        'port'    :data.get('port'),
+        'passwd'  :data.get('passwd'),
+        'method'  :data.get('method'),
+        'protocol':data.get('protocol'),
+        'obfs'    :data.get('obfs')
         }
-        msg='no'
-        print(user)
-        if user.get('user') and user.get('port'):
+        flag = 'no'
+        code = 1
+        port = user.get('port')
+        if user.get('user') and port:
             if ss.add(user):
-                msg='ok'
-        return {'msg':msg}
+                ss.del_rule(port)
+                ss.add_rule(port)
+                ss.save_table()
+                flag = 'ok'
+                code = 0
+        return {'msg': flag, 'code': code}
 
 class delete():
     def POST(self):
-        return
+        data = web.input()
+        port = data.get("port")
+        flag = 'no'
+        code = 1
+        if port:
+            port = int(port)
+            user = {'port': port, }
+            ss.delete(user)
+            ss.del_rule(port)
+            ss.save_table()
+            flag = 'ok'
+            code = 0
+        return {'msg': flag, 'code': code}
 
 class edit():
     def POST(self):
-        return
-
+        data = web.input()
+        name = data.get('name', '')
+        port=data.get('port','')
+        passwd=data.get('passwd','')
+        method=data.get('method','')
+        protocol=data.get('protocol','')
+        obfs=data.get('obfs','')
+        flag = 'no'
+        code = 1
+        if port:
+            port=int(port)
+            if port<65534:
+                user={'port':port,}
+            else:return {'code':1,'msg':'error'}
+            if name:
+                user.update({'user':name})
+            if passwd:
+                user.update({'passwd':passwd})
+            if method:
+                user.update({'method':method})
+            if protocol:
+                user.update({'protocol':protocol})
+            if obfs:
+                user.update({'obfs':obfs})
+            ss.edit(user)
+            flag = 'ok'
+            code = 0
+        return {'msg': flag, 'code': code}
+application=app.wsgifunc()
 if __name__ == '__main__':
     app.run()

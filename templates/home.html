@@ -199,7 +199,7 @@
 });
 	$(".delete").click(function(){
 	var port = $(this).attr("port");
-    var url = "/delete/";
+    var url = "/delete";
     $.post(url,{'port':port},
     function(data,status){
     	window.location.reload()
