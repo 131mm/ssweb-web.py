@@ -8,6 +8,12 @@ Debian 9 only
 
 Python3.6 required
 
+## Framework
+
+web.py==0.40.dev1
+
+django version [here](https://github.com/131mm/shadowsocks-monitor)
+
 ## Usage
 
 Before you start this web, make sure you have installed another awesome shell 'ssrmu.sh'. 
