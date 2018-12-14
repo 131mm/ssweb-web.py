@@ -25,6 +25,8 @@ Switch to super user root using `sudo su`
 
 Git is also required, using `apt install git`
 
+And surely python3 `apt install python3`
+
 Clone this project to `/usr/local`  using `git clone https://github.com/131mm/ssweb-web.py.git /usr/local/ssweb-web.py` 
 and `cd` into it `cd /usr/local/ssweb-web.py`
 
@@ -43,14 +45,17 @@ Then
 
 ##### Or Method 2
 
-1. change the server_name in file 'nginx' to your domain
-2. change the website in line 3 of file 'ssr.py' to your domain
-3. :
-
+1. 
 ```
 apt install python3 python3-pip python3-venv git nginx apache2-utils -y;
 git clone https://github.com/131mm/ssweb-web.py.git /usr/local/ssweb-web.py;
 cd /usr/local/ssweb-web.py;
+```
+2. change the server_name in line 3 of file 'nginx' to your domain
+3. change the website in line 3 of file 'ssr.py' to your domain
+4. 
+
+```
 cp nginx /etc/nignx/sites-enabled/;
 htpasswd -c /etc/nginx/passwd.db username;
 nginx && sudo nginx -s reload;
