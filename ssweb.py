@@ -16,14 +16,6 @@ render=render_jinja(
     encoding='utf-8'
 )
 
-class users():
-    name = ''
-    port = ''
-    passwd = ''
-    method = ''
-    protocol = ''
-    obfs = ''
-
 ss=ssr.ssr()
 class home():
     def GET(self):
@@ -36,11 +28,13 @@ class add():
         user={
         'user'    :data.get('name'),
         'port'    :int(data.get('port')),
-        'passwd'  :data.get('passwd'),
         'method'  :data.get('method'),
         'protocol':data.get('protocol'),
         'obfs'    :data.get('obfs')
         }
+        passwd =  data.get('passwd'),
+        if passwd:
+            user.update({'passwd':passwd})
         flag = 'no'
         code = 1
         port = user.get('port')
