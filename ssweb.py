@@ -35,7 +35,7 @@ class add():
         data=web.input()
         user={
         'user'    :data.get('name'),
-        'port'    :data.get('port'),
+        'port'    :int(data.get('port'),
         'passwd'  :data.get('passwd'),
         'method'  :data.get('method'),
         'protocol':data.get('protocol'),
