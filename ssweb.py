@@ -32,10 +32,13 @@ class add():
         'protocol':data.get('protocol'),
         'obfs'    :data.get('obfs')
         }
-        passwd =  data.get('passwd',''),
-        if not passwd:
+        passwd = data.get('passwd','')
+        if passwd:
+            up = {'passwd': passwd}
+            user.update(up)
+        elif passwd == '':
             passwd = self.rand_pass()
-            user.update({'passwd':passwd})
+            user.update({'passwd': passwd})
         flag = 'no'
         code = 1
         port = user.get('port')
