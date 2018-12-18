@@ -1,6 +1,6 @@
 import random,os,json,base64,socket,struct
 class Address():
-    website='ssweb.com'
+    website='ssweb.diao.ml'
     ssr_folder='../shadowsocksr'
     config_file=ssr_folder+'/config.json'
     config_user_file=ssr_folder+'/user-config.json'
