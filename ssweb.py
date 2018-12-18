@@ -32,8 +32,9 @@ class add():
         'protocol':data.get('protocol'),
         'obfs'    :data.get('obfs')
         }
-        passwd =  data.get('passwd'),
-        if passwd:
+        passwd =  data.get('passwd',''),
+        if not passwd:
+            passwd = self.rand_pass()
             user.update({'passwd':passwd})
         flag = 'no'
         code = 1
@@ -46,6 +47,11 @@ class add():
                 flag = 'ok'
                 code = 0
         return {'msg': flag, 'code': code}
+
+    def rand_pass(self):
+        import random
+        return ''.join([random.choice('''ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789~-_=+(){}[]^&%$@''') for i in range(8)])
+
 
 class delete():
     def POST(self):
