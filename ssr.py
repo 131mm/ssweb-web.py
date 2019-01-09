@@ -280,3 +280,18 @@ class ssr(Address,MuMgr,Iptables):
                 user.update(i)
                 users.append(user)
             return users
+
+    def next_user(self):
+        users=self.Get_all_user()
+        user_name = 'user_{}'.format(str(len(users)+1))
+        return user_name
+
+    def next_port(self):
+        users=self.Get_all_user()
+        port = 0
+        for user in users:
+            user_port = user.get('port')
+            if port < user_port:
+                port = user_port
+        port += 1
+        return port

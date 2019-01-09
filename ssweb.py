@@ -26,19 +26,24 @@ class add():
     def POST(self):
         data=web.input()
         user={
-        'user'    :data.get('name'),
-        'port'    :int(data.get('port')),
+        'user'    :data.get('name',''),
+        'port'    :data.get('port'),
         'method'  :data.get('method'),
         'protocol':data.get('protocol'),
         'obfs'    :data.get('obfs')
         }
         passwd = data.get('passwd','')
         if passwd:
-            up = {'passwd': passwd}
-            user.update(up)
+            user.update({'passwd':passwd})
         elif passwd == '':
             passwd = self.rand_pass()
             user.update({'passwd': passwd})
+        if not user.get('user') or user.get('user')=='':
+            user_name=ss.next_user()
+            user.update({'user':user_name})
+        if not user.get('port') or user.get('port')==0:
+            port=ss.next_port()
+            user.update({'port':port})
         flag = 'no'
         code = 1
         port = user.get('port')
