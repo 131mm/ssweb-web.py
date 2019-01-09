@@ -54,11 +54,11 @@
 		        	<button  class="btn-primary delete" port="{{user.port}}">删除用户</button>
 		        </div>
 		        <form class="form-horizontal" role="form" style="display:none">
-		        	<div><p>---用户名与端口不可修改---</p></div>
-			        <div class="form-group"  style="display: none">
+		        	<div><p>---端口不可修改---</p></div>
+			        <div class="form-group"  >
 			        	<label for="firstname" class="col-sm-2">用户：</label>
 	  					<div class="col-sm-6">
-					        <input type="text"  name="name"  value="{{user.user}}" >
+					        <input type="text"  name="name"  placeholder="{{user.user}}" >
 					     </div>
 			        </div>
 			        <div class="form-group" style="display: none" >

@@ -135,12 +135,11 @@ class MuMgr(object):
         self.data.load(self.config_path)
         for row in self.data.json:
             match = True
-            if 'user' in user and row['user'] != user['user']:
-                match = False
+            #if 'user' in user and row['user'] != user['user']:
+            #    match = False
             if 'port' in user and row['port'] != user['port']:
                 match = False
             if match:
-                print("edit user [%s]" % (row['user'],))
                 row.update(user)
                 break
         self.data.save(self.config_path)
