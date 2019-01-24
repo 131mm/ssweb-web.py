@@ -52,60 +52,11 @@ class MuMgr(object):
                 pass
         return ret
 
-    def ssrlink(self, user):
-        protocol = user.get('protocol', '')
-        obfs = user.get('obfs', '')
-        protocol = protocol.replace("_compatible", "")
-        obfs = obfs.replace("_compatible", "")
-        passwd64=base64.b64encode(user['passwd'].encode('utf-8'))
-        passwd64=str(passwd64, 'utf-8')
-        link = ("%s:%s:%s:%s:%s:%s" % (self.getipaddr(), user['port'], protocol, user['method'], obfs, (passwd64.replace("=", "")).encode('utf-8')))
-        return "ssr://"+str(base64.b64encode(link.encode('utf-8')),'utf-8')
-
-    def userinfo(self, user, muid = None):
-        ret = ""
-        key_list = ['user', 'port', 'method', 'passwd', 'protocol', 'protocol_param', 'obfs', 'obfs_param', 'transfer_enable', 'u', 'd']
-        for key in sorted(user):
-            if key not in key_list:
-                key_list.append(key)
-        for key in key_list:
-            if key in ['enable'] or key not in user:
-                continue
-            ret += '\n'
-            if (muid is not None) and (key in ['protocol_param']):
-                for row in self.data.json:
-                    if int(row['port']) == muid:
-                        ret += "    %s : %s" % (key, str(muid) + ':' + row['passwd'])
-                        break
-            elif key in ['transfer_enable', 'u', 'd']:
-                if muid is not None:
-                    for row in self.data.json:
-                        if int(row['port']) == muid:
-                            val = row[key]
-                            break
-                else:
-                    val = user[key]
-                if val / 1024 < 4:
-                    ret += "    %s : %s" % (key, val)
-                elif val / 1024 ** 2 < 4:
-                    val /= float(1024)
-                    ret += "    %s : %s  K Bytes" % (key, val)
-                elif val / 1024 ** 3 < 4:
-                    val /= float(1024 ** 2)
-                    ret += "    %s : %s  M Bytes" % (key, val)
-                else:
-                    val /= float(1024 ** 3)
-                    ret += "    %s : %s  G Bytes" % (key, val)
-            else:
-                ret += "    %s : %s" % (key, user[key])
-        # ret += "\n    " + self.ssrlink(user, False, muid)
-        # ret += "\n    " + self.ssrlink(user, True, muid)
-        return ret
-
     def rand_pass(self):
         return ''.join([random.choice('''ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789~-_=+(){}[]^&%$@''') for i in range(8)])
 
     def add(self, user):
+        '''添加用户'''
         up = {
             'enable': 1,
             'u': 0,
@@ -117,7 +68,6 @@ class MuMgr(object):
         }
         up['passwd'] = self.rand_pass()
         up.update(user)
-
         self.data.load(self.config_path)
         for row in self.data.json:
             match = False
@@ -132,6 +82,7 @@ class MuMgr(object):
         return True
 
     def edit(self, user):
+        '''编辑用户配置'''
         self.data.load(self.config_path)
         for row in self.data.json:
             match = True
@@ -146,6 +97,7 @@ class MuMgr(object):
         return True
 
     def delete(self, user):
+        '''删除用户'''
         self.data.load(self.config_path)
         index = 0
         for row in self.data.json:
@@ -162,6 +114,7 @@ class MuMgr(object):
         return True
 
     def clear_ud(self, user):
+        '''清除用户已用流量'''
         up = {'u': 0, 'd': 0}
         self.data.load(self.config_path)
         for row in self.data.json:
@@ -192,23 +145,11 @@ class MuMgr(object):
                 if 'muid' in user:
                     muid = user['muid']
                 print("### user [%s] info %s" % (row['user'], self.userinfo(row, muid)))
-    def Print_User_info(self,user):
-        i=user
-        print('用户',i['user'],'的配置信息：')
-        print('IP:    ',)
-        print('端口：  ',i['port'])
-        print('密码：  ',i['passwd'])
-        print('加密：  ',i['method'])
-        print('协议：  ',i['protocol'])
-        print('混淆：  ',i['obfs'])
-        print('流量：  ',i['traffic'])
-        print('已用：  ',i['used'])
-        print('ss链接：',i['sslink'])
-        print('ssr链接:',i['ssrlink'])
 
 
 class Iptables():
     def add_rule(self,port):
+        '''新建一条iptables规则，仅适用于debian'''
         commands=[]
         commands.append('iptables -I INPUT -m state --state NEW -m udp -p udp --dport {} -j ACCEPT'.format(port))
         commands.append('iptables -I INPUT -m state --state NEW -m tcp -p tcp --dport {} -j ACCEPT'.format(port))
@@ -218,6 +159,7 @@ class Iptables():
             except: pass
 
     def del_rule(self,port):
+        '''删除一条iptables规则，仅适用于debian'''
         commands=[]
         commands.append('iptables -D INPUT -m state --state NEW -m udp -p udp --dport {} -j ACCEPT'.format(port))
         commands.append('iptables -D INPUT -m state --state NEW -m tcp -p tcp --dport {} -j ACCEPT'.format(port))
@@ -227,30 +169,32 @@ class Iptables():
             except: pass
 
     def save_table(self):
+        '''保存iptables规则，仅适用于debian'''
         try:
             os.popen('iptables-save > /etc/iptables.up.rules')
         except: pass
 
 class ssr(Address,MuMgr,Iptables):
     def triffic(self,big):
+        '''计算流量单位'''
         flag = 0
-        tr = 0
         units = {0: 'B', 1: 'K', 2: 'M', 3: 'G'}
         little = int(big / 1024)
         for i in range(4):
             if little:
-                tr = little
                 little = int(little / 1024)
                 flag += 1
             else:
-                return str(tr) + units[flag]
+                return str(round(big/(1024 ** flag),2)) + units[flag]
 
-
-    def ss_link(self,ss):
+    def ss_link(self,i):
+        '''获取ss链接'''
+        ss = i['method'] + ':' + i['passwd'] + '@' + self.website + ':' + str(i['port'])
         sslink = base64.b64encode(ss.encode('utf-8'))
         return 'ss://' + str(sslink, 'utf-8')
 
-    def ssrlink(self, user):
+    def ssr_link(self, user):
+        '''获取ssr链接'''
         protocol = user.get('protocol', '')
         obfs = user.get('obfs', '')
         protocol = protocol.replace("_compatible", "")
@@ -261,31 +205,31 @@ class ssr(Address,MuMgr,Iptables):
         link = ("%s:%s:%s:%s:%s:%s" % (self.website, user['port'], protocol, user['method'], obfs, passwd64.replace('=','')))
         return "ssr://"+str(base64.b64encode(link.encode('utf-8')),'utf-8')
 
-
-    def Get_all_user           (self):
+    def Get_all_user(self):
+        '''获取所有用户信息'''
         with open(self.config_user_mudb_file, 'r') as user_file:
             mudb = json.load(user_file)
             users=[]
             for i in mudb:
-                ssr = self.ssrlink(i)
-                ss = i['method'] + ':' + i['passwd'] + '@' + self.website + ':' + str(i['port'])
                 user={
                     'ip':self.website,
                     'traffic':self.triffic(i['transfer_enable']),
                     'used':self.triffic(i['d'] + i['u']),
-                    'sslink':self.ss_link(ss),
-                    'ssrlink':ssr,
+                    'sslink':self.ss_link(i),
+                    'ssrlink':self.ssr_link(i),
                 }
                 user.update(i)
                 users.append(user)
             return users
 
     def next_user(self):
+        '''返回下一个可使用的username'''
         users=self.Get_all_user()
         user_name = 'user_{}'.format(str(len(users)+1))
         return user_name
 
     def next_port(self):
+        '''返回下一个可使用的端口'''
         users=self.Get_all_user()
         port = 0
         for user in users:
