@@ -1,5 +1,6 @@
-## ssweb powered by web.py
+## Shadowsocks/r web manager
 
+English |[中文](https://github.com/131mm/ssweb-web.py/readme_zh_cn.md)
 #### System supported
 
 Debian 9 only
