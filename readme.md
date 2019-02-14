@@ -1,6 +1,19 @@
 ## Shadowsocks/r web manager
 
 English |[中文](https://github.com/131mm/ssweb-web.py/blob/master/readme_zh_cn.md)
+
+#### Description
+
+This project is used to manage users of shadowsocks/r working with another excellent shell writen by doubi, aiming to make it easier for you to share your shadowsocks/r with you firends
+Please be aware that there was no security tests on this project
+
+#### Functions
+
+- [x] 1、add user
+
+- [x] 2、delete user
+
+- [x] 3、change settings
 #### System supported
 
 Debian 9 only
@@ -14,6 +27,7 @@ Python3.6 required
 web.py==0.40.dev1
 
 django version [here](https://github.com/131mm/shadowsocks-monitor)
+
 
 #### Usage
 

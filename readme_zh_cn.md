@@ -1,5 +1,21 @@
 ## Shadowsocks/r web manager
 
+[English](https://github.com/131mm/ssweb-web.py/blob/master/readme.md)|中文
+
+#### 简介
+
+本项目是一个用于shadowsocks/r单机多用户管理的web，旨在让shadowsocks的配置可视化，只需一次部署，其余的管理操作都可以在网页上完成
+
+#### 功能
+
+- [x] 1、一键添加用户，可随机设置一切配置，无需任何输入
+
+- [x] 2、一键删除用户或端口，适用与端口被阻断等情况
+
+- [x] 3、修改配置，支持几乎所有shadowsocks的配置修改
+
+- [x] 4、查看所有用户使用情况
+
 #### 操作系统支持
 
 Debian 9最佳，Debian应该都行
