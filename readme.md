@@ -78,3 +78,16 @@ python3 -m venv venv;
 bash run.sh;
 
 ```
+#### Previews
+
+homepage: user_infos
+
+![深度截图_选择区域_20190214165157.png](https://i.loli.net/2019/02/14/5c652c78795e0.png)
+
+user_configs:
+
+![深度截图_选择区域_20190214165217.png](https://i.loli.net/2019/02/14/5c652c7860e24.png)
+
+edit user_config:
+
+![深度截图_选择区域_20190214165243.png](https://i.loli.net/2019/02/14/5c652c784084c.png)
