@@ -1,3 +1,8 @@
+'''
+作者：github.com/131mm
+声明：模块MuJsonLoader 和MuMgr 非作者本人编写
+
+'''
 import random,os,json,base64,socket,struct
 class Address():
     website='ssweb.diao.ml'

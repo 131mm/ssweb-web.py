@@ -38,6 +38,7 @@ class add():
         'obfs'    :data.get('obfs')
         }
         passwd = data.get('passwd','')
+        transfer_e = data.get('transfer_e','')
         if passwd:
             user.update({'passwd':passwd})
         elif passwd == '':
@@ -49,6 +50,9 @@ class add():
         if not user.get('port') or user.get('port')==0:
             port=ss.next_port()
             user.update({'port':port})
+        if transfer_e:
+            transfer_e = int(transfer_e)*1073741824
+            user.update({'transfer_enable':transfer_e})
         flag, code = 'no',1
         port = user.get('port')
         if user.get('user') and port:
@@ -88,6 +92,7 @@ class edit():
         method=data.get('method','')
         protocol=data.get('protocol','')
         obfs=data.get('obfs','')
+        transfer_e = data.get('transfer_e','')
         flag, code = 'no',1
         if port:
             port=int(port)
@@ -104,6 +109,9 @@ class edit():
                 user.update({'protocol':protocol})
             if obfs:
                 user.update({'obfs':obfs})
+            if transfer_e:
+                transfer_e = int(transfer_e)*1073741824
+                user.update({'transfer_enable':transfer_e})
             ss.edit(user)
             flag, code = 'ok', 0
         return {'msg': flag, 'code': code}
