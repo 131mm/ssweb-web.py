@@ -52,7 +52,7 @@ Then
 3. install apache2-utils using `apt install apache2-utils`
 4. generate password using `htpasswd -c /etc/nginx/passwd.db username`
 5. change the website in line 3 of file 'ssr.py' to your domain        
-6. copy file `nginx` in to `/etc/nginx/sites-enabled/` using `cp nginx /etc/nignx/sites-enabled/`                
+6. copy file `nginx` in to `/etc/nginx/sites-enabled/` using `cp nginx /etc/nginx/sites-enabled/`                
 7. start nginx with `nginx && sudo nginx -s reload`                    
 8. install venv and pip using `apt install python3-venv python3-pip`   
 9. create virtual-env for web.py using `python3 -m venv venv`          
@@ -71,7 +71,7 @@ cd /usr/local/ssweb-web.py;
 4. 
 
 ```
-cp nginx /etc/nignx/sites-enabled/;
+cp nginx /etc/nginx/sites-enabled/;
 htpasswd -c /etc/nginx/passwd.db username;
 nginx && sudo nginx -s reload;
 python3 -m venv venv;
