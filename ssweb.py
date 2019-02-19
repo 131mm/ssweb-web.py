@@ -56,6 +56,7 @@ class add():
         flag, code = 'no',1
         port = user.get('port')
         if user.get('user') and port:
+            user.update({'port':int(port)})
             if ss.add(user):
                 ss.del_rule(port)
                 ss.add_rule(port)
