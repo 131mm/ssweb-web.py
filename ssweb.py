@@ -8,7 +8,8 @@ urls=(
     '/', 'home',
     '/add', 'add',
     '/delete', 'delete',
-    '/edit','edit'
+    '/edit','edit',
+    '/visitor','visitor'
 )
 
 app=web.application(urls,globals())
@@ -26,6 +27,13 @@ class home():
     def GET(self):
         users = ss.Get_all_user()
         return render.home(users=users)
+
+## 主页
+class visitor():
+    def GET(self):
+        users = ss.Get_all_user()
+        return render.user(users=users)
+
 
 ## 添加用户
 class add():
