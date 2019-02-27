@@ -52,9 +52,9 @@ class add():
         'transfer_enable':transfer_e,
         }
         if ss.add(user):
-            # ss.del_rule(port)
-            # ss.add_rule(port)
-            # ss.save_table()
+            ss.del_rule(port)
+            ss.add_rule(port)
+            ss.save_table()
             msg='添加成功'
         else: msg='添加失败'
         return json.dumps(msg)
@@ -77,8 +77,8 @@ class delete():
             if ss.delete(user):
                 print('ok')
             else:print('err')
-            # ss.del_rule(port)
-            # ss.save_table()
+            ss.del_rule(port)
+            ss.save_table()
             msg = '删除成功'
         return json.dumps(msg)
 
