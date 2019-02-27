@@ -208,30 +208,60 @@
 	$(".add").click(function(){
     $(this).parent().parent().find(".form-horizontal").toggle(500);
 });
-	$(".delete").click(function(){
-	var port = $(this).attr("port");
-    var url = "/delete";
-    $.post(url,{'port':port},
-    function(data,status){
-    	window.location.reload()
-    })
-});
-	$(".edit").click(function(){
+
+$(".delete").click(function() {
+    var port = $(this).attr("port");
+    $.ajax({
+        type: "Post",
+        url: "/delete",
+        data: {'port':port},
+        dataType: "json",
+        success: function() {
+            alert('删除成功');
+            window.location.reload();
+        },
+        error: function(err) {
+            alert(err);
+        }
+    });
+        return false;
+    });
+
+$(".edit").click(function() {
     var post_data = $(this).parent().serializeArray();
-    var url = '/edit'
-    $.post(url,post_data,
-    function(data,status){
-    	window.location.reload()
-    })
-});
-	$(".submit-bt").click(function(){
+    $.ajax({
+        type: "Post",
+        url: "/edit",
+        data: post_data,
+        dataType: "json",
+        success: function() {
+            alert('修改成功');
+            window.location.reload();
+        },
+        error: function(err) {
+            alert(err);
+        }
+    });
+        return false;
+    });
+
+$(".submit-bt").click(function() {
     var post_data = $(this).parent().serializeArray();
-    var url = '/add'
-    $.post(url,post_data,
-    function(data,status){
-    	window.location.reload()
-    })
-});
+    $.ajax({
+        type: "Post",
+        url: "/add",
+        data: post_data,
+        dataType: "json",
+        success: function() {
+            alert('添加成功');
+            window.location.reload();
+        },
+        error: function(err) {
+            alert(err);
+        }
+    });
+        return false;
+    });
 
 </script>
 <footer>
