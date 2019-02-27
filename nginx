@@ -13,5 +13,3 @@ server {
 	include uwsgi_params;
 	uwsgi_pass localhost:8008;
 	}}
-
-}

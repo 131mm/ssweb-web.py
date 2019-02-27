@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ssweb</title>
+    <link rel="stylesheet" href="http://apps.bdimg.com/libs/bootstrap/3.3.4/css/bootstrap.min.css" >
+	<style type="text/css">
+		body {font-size: 35px;  background: #ebebeb url('');padding-bottom: 30px;}
+		.navbar { min-height: 50px;background: #0697c7; color: #fff; padding: 20px; font-size: 55px; }
+        .content {padding:20px;}
+        .ss {font-size: 20px;}
+        .short {background: #28b; font-size:50px;padding: 1px; }
+        .table-head {font-size: 50px;}
+        .btn-primary {background: #0697c7;padding: 20px 30px;border: 1px solid transparent;border-radius:10px; }
+        .delete {background: red; margin-left: 300px;   }
+        input { border: -2px; margin: -1px;padding: 12px;}
+        label {margin: 0;padding: 12px;}
+        .form-horizontal {padding-top: 15px;}
+        .info {margin: 10px;padding: 5px;}
+        select {border: 2px; margin: 1px 1px;padding: 12px 15px; border-color: #fff;}
+	</style>
+</head>
+<body>
+	<div class="navbar">
+		<a href="/" style="color: #fff">ss-web</a>
+	</div>
+	<div class="content">
+		<div class="table-head" >
+			<span class="col-xs-3" >用户</span>
+			<span class="col-xs-3">端口</span>
+			<span class="col-xs-3">流量已用</span>
+			<span class="col-xs-3">总流量</span>
+		</div>
+		{% for user in users%}
+		<div class="col-xs-12 info">
+			<div class="short">
+				<span class="col-xs-3">{{user.user}}</span>
+				<span class="col-xs-3">{{user.port}}</span>
+				<span class="col-xs-3">{{user.used}}</span>
+				<span class="col-xs-3">{{user.traffic}}</span>
+			</div>
+		</div>
+        {% endfor%}
+
+
+	</div>
+
+
+<footer>
+	<div class="Copyright">
+        <span class="copyright" style="text-align: center;display:block;">&copy;  - <a href="https://github.com/131mm/ssweb-web.py"> 阿刁</a></span>
+    </div>
+</footer>
+</body>
+</html>
+
+
