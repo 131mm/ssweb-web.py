@@ -9,11 +9,18 @@ Please be aware that there was no security tests on this project
 
 #### Functions
 
+##### Admin user:
+
 - [x] 1、add user
 
 - [x] 2、delete user
 
 - [x] 3、change settings
+
+##### Visitor: (with a suffix)(/visitor)
+
+- [x] see infos
+
 #### System supported
 
 Debian 9 only
@@ -22,11 +29,9 @@ Debian 9 only
 
 Python3.6 required
 
-#### Framework
+#### Web Framework
 
 web.py==0.40.dev1
-
-django version [here](https://github.com/131mm/shadowsocks-monitor)
 
 
 #### Usage
@@ -53,7 +58,7 @@ Then
 4. generate password using `htpasswd -c /etc/nginx/passwd.db username`
 5. change the website in line 3 of file 'ssr.py' to your domain        
 6. copy file `nginx` in to `/etc/nginx/sites-enabled/` using `cp nginx /etc/nginx/sites-enabled/`                
-7. start nginx with `nginx && sudo nginx -s reload`                    
+7. restart nginx with `nginx -s reload`                    
 8. install venv and pip using `apt install python3-venv python3-pip`   
 9. create virtual-env for web.py using `python3 -m venv venv`          
 10.start it `bash run.sh` 
@@ -68,12 +73,12 @@ cd /usr/local/ssweb-web.py;
 ```
 2. change the server_name in line 3 of file 'nginx' to your domain
 3. change the website in line 3 of file 'ssr.py' to your domain
-4. 
+4. `cp nginx /etc/nginx/sites-enabled/;`
+5. change the username to anything you like and generate your password `htpasswd -c /etc/nginx/passwd.db username`
+6.
 
 ```
-cp nginx /etc/nginx/sites-enabled/;
-htpasswd -c /etc/nginx/passwd.db username;
-nginx && sudo nginx -s reload;
+nginx -s reload;
 python3 -m venv venv;
 bash run.sh;
 

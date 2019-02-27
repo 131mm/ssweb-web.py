@@ -8,6 +8,8 @@
 
 #### 功能
 
+##### 管理员：(直接访问域名)(/)
+
 - [x] 1、一键添加用户，可随机设置一切配置，无需任何输入
 
 - [x] 2、一键删除用户或端口，适用与端口被阻断等情况
@@ -15,6 +17,10 @@
 - [x] 3、修改配置，支持几乎所有shadowsocks的配置修改
 
 - [x] 4、查看所有用户使用情况
+
+##### 访客：(域名加后缀)(/visitor)
+
+- [x] 查看所有用户使用情况
 
 #### 操作系统支持
 
@@ -55,7 +61,7 @@ click [here](https://github.com/ToyoDAdoubi/doubi#ssrmush) to install it.
 4. 生成密码 `htpasswd -c /etc/nginx/passwd.db username`
 5. 修改 'ssr.py' 文件第三行的域名为你的域名        
 6. 把nginx配置文件’nginx‘复制到 ’/etc/nginx/sites-enabled/‘ `cp nginx /etc/nginx/sites-enabled/`                
-7. 重启nginx  `nginx &&  nginx -s reload`                    
+7. 重启nginx  `nginx -s reload`                    
 8. 安装python3 venv pip `apt install python3 python3-venv python3-pip`
 9. 创建虚拟环境 `python3 -m venv venv`          
 10. 启动 `bash run.sh` 
@@ -74,7 +80,7 @@ git clone https://github.com/131mm/ssweb-web.py.git /usr/local/ssweb-web.py &&cd
 ```
 cp nginx /etc/nginx/sites-enabled/;
 htpasswd -c /etc/nginx/passwd.db username;
-nginx && sudo nginx -s reload;
+nginx -s reload;
 python3 -m venv venv;
 bash run.sh;
 
