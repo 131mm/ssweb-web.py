@@ -118,6 +118,7 @@ class edit():
             if obfs:
                 user.update({'obfs':obfs})
             if transfer_e:
+                transfer_e = transfer_e.split('.')[0]
                 transfer_e = int(transfer_e)*1073741824
                 user.update({'transfer_enable':transfer_e})
             ss.edit(user)

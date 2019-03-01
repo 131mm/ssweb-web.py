@@ -236,7 +236,7 @@ class ssr(Address,MuMgr,Iptables):
     def next_port(self):
         '''返回下一个可使用的端口'''
         users=self.Get_all_user()
-        port = 0
+        port = 1024
         for user in users:
             user_port = user.get('port')
             if port < user_port:

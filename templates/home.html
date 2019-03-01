@@ -58,7 +58,7 @@
 			        <div class="form-group"  >
 			        	<label for="firstname" class="col-sm-2">用户：</label>
 	  					<div class="col-sm-6">
-					        <input type="text"  name="name"  placeholder="{{user.user}}" >
+					        <input type="text"  name="name"  value="{{user.user}}" >
 					     </div>
 			        </div>
 			        <div class="form-group" style="display: none" >
@@ -70,18 +70,19 @@
 			        <div class="form-group"  >
 			        	<label for="firstname" class="col-sm-2">密码：</label>
 	  					<div class="col-sm-6">
-					        <input type="text"  name="passwd"  placeholder="密码(留空则随机)">
+					        <input type="text"  name="passwd"  value="{{user.passwd}}">
 					     </div>
 			        </div>
 				<div class="form-group"  >
 					<label for="firstname" class="col-sm-2">流量：</label>
 						<div class="col-sm-6">
-						<input type="text" name="transfer_e"  placeholder="流量(单位GB)">
+						<input type="text" name="transfer_e"  value="{{user.traffic}}">
 					     </div>
 				</div>
 			        <div class="form-group"  >
 			        	<label for="firstname" class="col-sm-2">加密：</label>
 	  					<select name="method">
+	  						<option>{{user.method}}  </option>
 	                        <option>aes-256-cfb  </option>
 				            <option>aes-192-cfb  </option>
 				            <option>aes-128-cfb  </option>
@@ -98,6 +99,7 @@
 			        <div class="form-group"  >
 			        	<label for="firstname" class="col-sm-2">协议：</label>
 	  					<select name="protocol">
+	  						<option>{{user.protocol}}       </option>
 				            <option>origin                  </option>
 				            <option>auth_sha1_v4            </option>
 				            <option>auth_sha1_v4_compatible </option>
@@ -109,6 +111,7 @@
 			        <div class="form-group"  >
 			        	<label for="firstname" class="col-sm-2">混淆：</label>
 	  					<select name="obfs">
+	  						<option>{{user.obfs}}                </option>
 				            <option>plain                        </option>
 				            <option>http_simple_compatible       </option>
 				            <option>http_simple                  </option>
@@ -138,7 +141,7 @@
 		        <div class="form-group"  >
 		        	<label for="firstname" class="col-sm-2">端口：</label>
   					<div class="col-sm-6">
-				        <input type="text" class="add" name="port"  placeholder="2000-65000 必须">
+				        <input type="text" class="add" name="port"  placeholder="2000-65000">
 				     </div>
 		        </div>
 		        <div class="form-group"  >
@@ -200,17 +203,18 @@
 <script type='text/javascript' src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
 <script>
 	$(".short").click(function(){
-    $(this).parent().find(".hide1").toggle(500);
+    $(this).parent().find(".hide1").toggle(300);
 });
 	$(".modify").click(function(){
-    $(this).parent().parent().find(".form-horizontal").toggle(500);
+    $(this).parent().parent().find(".form-horizontal").toggle(300);
 });
 	$(".add").click(function(){
-    $(this).parent().parent().find(".form-horizontal").toggle(500);
+    $(this).parent().parent().find(".form-horizontal").toggle(300);
 });
 
 $(".delete").click(function() {
     var port = $(this).attr("port");
+    if (confirm("确定删除?")){
     $.ajax({
         type: "Post",
         url: "/delete",
@@ -224,11 +228,13 @@ $(".delete").click(function() {
             alert(err);
         }
     });
-        return false;
+    };
+    return false;
     });
 
 $(".edit").click(function() {
     var post_data = $(this).parent().serializeArray();
+    if (confirm("确定修改?")){
     $.ajax({
         type: "Post",
         url: "/edit",
@@ -242,7 +248,8 @@ $(".edit").click(function() {
             alert(err);
         }
     });
-        return false;
+    }
+    return false;
     });
 
 $(".submit-bt").click(function() {
