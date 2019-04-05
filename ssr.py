@@ -179,7 +179,7 @@ class Iptables():
             os.popen('iptables-save > /etc/iptables.up.rules')
         except: pass
 
-class ssr(Address,MuMgr,Iptables):
+class Ssr(Address,MuMgr,Iptables):
     def triffic(self,big):
         '''计算流量单位'''
         flag = 0
@@ -243,3 +243,38 @@ class ssr(Address,MuMgr,Iptables):
                 port = user_port
         port += 1
         return port
+
+class User():
+    methods = ['aes-256-cfb','aes-192-cfb','aes-128-cfb','rc4-md5','rc4-md5-6',
+    'chacha20','chacha20-ietf','salsa20','aes-128-ctr','aes-192-ctr','aes-256-ctr']
+    protocols = ['origin','auth_sha1_v4','auth_sha1_v4_compatible','auth_aes128_md5',
+    'auth_aes128_sha1','auth_chain_a']
+    obfses = ['plain','http_simple_compatible','http_simple',
+    'tls1.2_ticket_auth_compatible',    'tls1.2_ticket_auth']
+    def __init__(self,data):
+        name= data.get('name','')
+        port=data.get('port','')
+        method=data.get('method','aes-256-cfb')
+        protocol=data.get('protocol','origin')
+        obfs=data.get('obfs','plain')
+        passwd = data.get('passwd','')
+        transfer_e = data.get('transfer_e','')
+
+        ssr = Ssr()
+        name = ssr.next_user() if name=='' else name
+        port = ssr.next_port() if port=='' else port
+        method = 'aes-256-cfb' if method not in self.methods else method
+        protocol = 'origin' if protocol not in self.protocols else protocol
+        obfs = 'plain' if obfs not in self.obfses else obfs
+        passwd = ssr.rand_pass() if passwd=='' else passwd
+        transfer_e = 100*1073741824 if transfer_e=='' else int(transfer_e.split('.')[0])*1073741824
+        self.user ={
+        'user':name,
+        'port':int(port),
+        'method':method,
+        'protocol':protocol,
+        'obfs':obfs,
+        'passwd':passwd,
+        'transfer_enable':transfer_e,
+        }
+
